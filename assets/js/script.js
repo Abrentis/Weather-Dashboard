@@ -1,4 +1,6 @@
+// Key used to access OpenWeatherMap API's
 var APIKey = "d4bd32ecf29ececb6650006c372b062c";
+// Element selectors
 var formSubmission = $("#submit-form");
 var searchButton = $("#search-submit");
 var searchHistoryEl = $('#search-history');
@@ -18,6 +20,7 @@ clearStorageBtn.on("click", function(event) {
     localStorage.clear();
     searchHistoryEl.empty();
 });
+
 // Event listener for data fetch and displaying results
 formSubmission.on("submit", weatherData);
 function weatherData(event) {
@@ -49,6 +52,7 @@ function weatherData(event) {
         return response.json();
     })
     .then(function (data) {
+        // Displays city's weather for today
         dateTodayEl.html(dayjs().format('YYYY-MM-DD'));
         var weatherIconID = data.weather[0].icon;
         var weatherIconURL = "http://openweathermap.org/img/w/" + weatherIconID + ".png";
@@ -90,16 +94,16 @@ function weatherData(event) {
                 weatherData(event);
             });
         }
-        console.log(localStorage);
     })
 
     var weatherFiveDaysURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
+    // Data fetch for 5-day forecast
     fetch(weatherFiveDaysURL)
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
-        console.log(data);
+        // Loop to store dates of the next 5 days
         for (let i = 0; i < data.list.length; i++) {
             var storedDateFull = data.list[i].dt_txt;
             var splitDate = storedDateFull.split(' ');
@@ -108,6 +112,7 @@ function weatherData(event) {
                 storedDatesArray.push(storedDate);
             }
         }
+        // Loop to store temperature, wind speed, humidity, and weather icons
         for (let i = 0; i < storedDatesArray.length; i++) {
             data.list.forEach((temperature) => {
                 //console.log(temperature);
@@ -126,8 +131,8 @@ function weatherData(event) {
                 };
             })
         }
-        console.log(storedDatesArray);
-
+        
+        // Empties <div> containers so that new information can be displayed every time the function is ran
         var weatherContainers = [
             $("#day-1"),
             $("#day-2"),
@@ -140,6 +145,7 @@ function weatherData(event) {
         weatherContainers[2].empty();
         weatherContainers[3].empty();
         weatherContainers[4].empty();
+        //Loop that displays all data for 5-day forecast
         for (let i = 1; i < storedDatesArray.length; i++) {
             var displayDate = document.createElement("p");
             displayDate.innerHTML = storedDatesArray[i];
@@ -165,6 +171,7 @@ function weatherData(event) {
     })
 }
 
+// Function that calls on local storage and displays buttons for recent searches
 function renderStorage() {
     searchHistoryEl.empty();
     var keys = Object.keys(localStorage);
