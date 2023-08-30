@@ -8,7 +8,7 @@ Through creating this program, I gained more experience in traversing data provi
 
 ## Usage
 
-Here is what the website looks like upon first visiting it:
+Here is what the website looks like upon first visiting it: https://abrentis.github.io/Weather-Dashboard/
 ![Image of website](./assets/images/website-page.jpg)
 
 When you search for a city, both the current weather forecast and 5-day weather forecast will display:
