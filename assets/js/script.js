@@ -22,6 +22,8 @@ clearStorageBtn.on("click", function(event) {
 formSubmission.on("submit", weatherData);
 function weatherData(event) {
     event.preventDefault();
+
+    // Empties arrays to store new data
     var storedDatesArray = [];
     var storedTemperatures = [
         {storedTemperatures0: []},
@@ -35,10 +37,13 @@ function weatherData(event) {
     var storedHumidity = [];
     var storedWind = [];
     var storedIcon = [];
+
+    // Establishes name of city that was entered
     var city = $("#search-input").val();
     cityNameEl.html(city);
     var weatherTodayURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey + "&units=imperial";
 
+    //Data fetch for the current weather
     fetch(weatherTodayURL)
     .then(function (response) {
         return response.json();
@@ -52,8 +57,8 @@ function weatherData(event) {
         temperatureTodayEl.html("Temperature: " + data.main.temp);
         humidityTodayEl.html("Humidity: " + data.main.humidity + "%");
         windSpeedTodayEl.html("Wind Speed: " + data.wind.speed + "/mph");
-        console.log(data);
         var storageString = JSON.stringify(localStorage);
+        // Adds name of city to local storage and creates a unique button for it
         if (localStorage.length == 0 && !city == undefined) {
             localStorage.setItem(city, weatherTodayURL);
             var storageString = JSON.stringify(localStorage);
@@ -64,7 +69,10 @@ function weatherData(event) {
             });
             newSearch.html(city);
             searchHistoryEl.append(newSearch);
-            newSearch.on("click", weatherData);
+            newSearch.on("click", function() {
+                city = $("#search-input").val(newSearch.attr('id'));
+                weatherData(event);
+            });
         }
         else if (!storageString.includes(city)) {
             localStorage.setItem(city, weatherTodayURL);
@@ -76,7 +84,11 @@ function weatherData(event) {
             });
             newSearch.html(city);
             searchHistoryEl.append(newSearch);
-            newSearch.on("click", weatherData);
+            newSearch.on("click", function() {
+                city = $("#search-input").val(newSearch.attr('id'));
+                console.log(city);
+                weatherData(event);
+            });
         }
         console.log(localStorage);
     })
@@ -171,5 +183,3 @@ function renderStorage() {
     })
   }
   renderStorage();
-// Built-in API request by city name 
-// https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
