@@ -44,7 +44,7 @@ function weatherData(event) {
     // Establishes name of city that was entered
     var city = $("#search-input").val();
     cityNameEl.html(city);
-    var weatherTodayURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey + "&units=imperial";
+    var weatherTodayURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey + "&units=imperial";
 
     //Data fetch for the current weather
     fetch(weatherTodayURL)
@@ -55,7 +55,7 @@ function weatherData(event) {
         // Displays city's weather for today
         dateTodayEl.html(dayjs().format('YYYY-MM-DD'));
         var weatherIconID = data.weather[0].icon;
-        var weatherIconURL = "http://openweathermap.org/img/w/" + weatherIconID + ".png";
+        var weatherIconURL = "https://openweathermap.org/img/w/" + weatherIconID + ".png";
         weatherIconEl.attr('src', weatherIconURL);
         weatherIconEl.show();
         temperatureTodayEl.html("Temperature: " + data.main.temp);
@@ -96,7 +96,7 @@ function weatherData(event) {
         }
     })
 
-    var weatherFiveDaysURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
+    var weatherFiveDaysURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
     // Data fetch for 5-day forecast
     fetch(weatherFiveDaysURL)
     .then(function (response) {
@@ -153,7 +153,7 @@ function weatherData(event) {
             weatherContainers[i - 1].append(displayDate);
 
             var displayIcon = document.createElement("img");
-            displayIcon.setAttribute('src', "http://openweathermap.org/img/w/" + storedIcon[i - 1] + ".png")
+            displayIcon.setAttribute('src', "https://openweathermap.org/img/w/" + storedIcon[i - 1] + ".png")
             weatherContainers[i - 1].append(displayIcon);
 
             var displayTemperature = document.createElement("p");
